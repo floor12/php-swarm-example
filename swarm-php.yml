@@ -1,0 +1,38 @@
+version: '3.7'
+
+services:
+  php:
+    image: registry.gitlab.com/floor12/images:basic80
+    configs:
+      - source: index_php
+        target: /app/index.php
+    networks:
+      - example
+    deploy:
+      replicas: 3
+      mode: replicated
+
+  nginx:
+    image: nginx
+    configs:
+      - source: nginx_config
+        target: /etc/nginx/conf.d/default.conf
+    ports:
+      - '8888:80'
+    networks:
+      - example
+    deploy:
+      replicas: 1
+      mode: replicated
+
+configs:
+  nginx_config:
+    file: ./app.conf
+  index_php:
+    file: ./index.php
+
+networks:
+  example:
+    driver: overlay
+    driver_opts:
+      encrypted: "true"

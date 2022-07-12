@@ -1,0 +1,1 @@
+# PHP-fpm + NGINX: docker-SWARM example
