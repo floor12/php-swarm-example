@@ -1,17 +1,12 @@
 version: '3.7'
-
 services:
   php:
     image: registry.gitlab.com/floor12/images:basic80
-    configs:
-      - source: index_php
-        target: /app/index.php
     networks:
       - example
     deploy:
       replicas: 3
       mode: replicated
-
   nginx:
     image: nginx
     configs:
@@ -24,13 +19,9 @@ services:
     deploy:
       replicas: 1
       mode: replicated
-
 configs:
   nginx_config:
     file: ./app.conf
-  index_php:
-    file: ./index.php
-
 networks:
   example:
     driver: overlay
